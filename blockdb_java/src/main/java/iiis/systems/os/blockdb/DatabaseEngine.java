@@ -45,7 +45,9 @@ public class DatabaseEngine {
 		logLength = (logLength+1)%N;
 		//File dataPath = new File(dataDir);
 		try{
-			filePath = dataDir + blockCnt + ".json";
+			if (logLength == 0)filePath = dataDir + blockCnt + ".json";
+			else filePath = dataDir + "tmp.json";
+			//filePath = dataDir + blockCnt + "_" + ".json";
 			/*FileWriter fw = new FileWriter(filePath);
 			PrintWriter out = new PrintWriter(fw);
 			out.write();
@@ -89,10 +91,15 @@ public class DatabaseEngine {
 			}
 			
 			for (int i=1;i<=blockCnt;++i){
-				FileReader reader = new FileReader(dataDir + i + ".json");
-				JsonFormat.parser().merge(reader, block_builder);
 				int num = N;
-				if (i==blockCnt)num = logLength;
+				String filePath = dataDir + i + ".json";
+				if (i==blockCnt && logLength < N){  //has tail!
+					num = logLength;
+					filePath = dataDir + "tmp.json";
+					//filePath = dataDir + i + "_" + ".json";
+				}
+				FileReader reader = new FileReader(filePath);
+				JsonFormat.parser().merge(reader, block_builder);
 				for (int j=0;j<num;++j){
 					Transaction transaction = builder.getTransactions(j);
 					Transaction.Types type = transaction.getType();
