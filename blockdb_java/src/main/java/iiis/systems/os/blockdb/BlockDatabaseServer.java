@@ -71,13 +71,16 @@ public class BlockDatabaseServer {
 	
 	public static void test2(){
 		DatabaseEngine.setup("./test/");
+		int T = 50;
 		Thread t1 = new Thread(new Runnable(){
 			public void run(){
 				for (int i=0; i<10; ++i){
 					System.out.println(""+i+"deposit"+engine.deposit(Integer.toString(i), 1));
+					Thread.sleep(T);
 				}
 				for (int i=0; i<10; ++i){
 					System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+					Thread.sleep(T);
 				}
 			}
 		});
@@ -85,6 +88,7 @@ public class BlockDatabaseServer {
 			public void run(){
 				for (int i=0; i<5; ++i){
 					System.out.println(""+i+"deposit"+engine.deposit(Integer.toString(i), 1));
+					Thread.sleep(T);
 				}
 			}
 		});
@@ -92,9 +96,11 @@ public class BlockDatabaseServer {
 			public void run(){
 				for (int i=0; i<4; ++i){
 					System.out.println(""+i+"put"+engine.put(Integer.toString(i), i));
+					Thread.sleep(T);
 				}
 				for (int i=0; i<10; ++i){
 					System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+					Thread.sleep(T);
 				}
 			}
 		});
@@ -102,13 +108,16 @@ public class BlockDatabaseServer {
 			public void run(){
 				for (int i=0; i<10; ++i){
 					System.out.println(""+i+"withdraw"+engine.withdraw(Integer.toString(i), 1));
+					Thread.sleep(T);
 				}
 				for (int i=11; i>0; --i)
 					if (i%2==1){
 						System.out.println(""+i+"transfer"+engine.transfer(Integer.toString(i), Integer.toString(i-1), 2));
+						Thread.sleep(T);
 					}
 				for (int i=0; i<10; ++i){
 					System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+					Thread.sleep(T);
 				}
 			}
 		});
@@ -118,10 +127,40 @@ public class BlockDatabaseServer {
 		t4.start();
 	}
 	
+	public static void test3(){
+		DatabaseEngine.setup("./test/");
+		int T = 100;
+		for (int i=0; i<10; ++i){
+			System.out.println(""+i+"put"+engine.put(Integer.toString(i), i));
+		}
+		Thread t1 = new Thread(new Runnable(){
+			public void run(){
+				for (int j=0;j<20;++j){
+					for (int i=0;i<10;++i){
+						System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+					}
+					Thread.sleep(T);
+				}
+			}
+		});
+		Thread t2 = new Thread(new Runnable(){
+			public void run(){
+				java.util.Random ran=new java.util.Random(); 
+				for (int i=0; i<10; ++i){
+					int from = ran.nextInt(), to = ran.nextInt();
+					System.out.println("transfer"+from+" "+to+" "+engine.transfer(from, to, 1));
+					Thread.sleep(T);
+				}
+			}
+		});
+		t1.start();
+		t2.start();
+	}
 	
     public static void main(String[] args) throws IOException, JSONException, InterruptedException {
         test1();return;
 		//test2();return;
+		//test3();return;
 		
 		JSONObject config = Util.readJsonFile("config.json");
         config = (JSONObject)config.get("1");
