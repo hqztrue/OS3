@@ -102,6 +102,7 @@ public class DatabaseEngine {
 					//filePath = dataDir + i + "_" + ".json";
 				}
 				FileReader reader = new FileReader(filePath);
+                block_builder = Block.newBuilder();
 				JsonFormat.parser().merge(reader, block_builder);
 				for (int j=0;j<num;++j){
 					Transaction transaction = block_builder.getTransactions(j);
@@ -147,7 +148,7 @@ public class DatabaseEngine {
     DatabaseEngine(String dataDir) {
         this.dataDir = dataDir;
 		this.savedLogInfoPath = this.dataDir + "info.txt";
-		//restoreLog();
+		restoreLog();
     }
 
     private int getOrZero(String userId) {
@@ -169,7 +170,7 @@ public class DatabaseEngine {
             e.printStackTrace();
         }
 		lock.readLock().unlock();
-        System.out.println("get return "+ans);
+        //System.out.println("get return "+ans);
         return ans;
     }
 

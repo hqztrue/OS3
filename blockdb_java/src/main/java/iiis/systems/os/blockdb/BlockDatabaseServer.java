@@ -5,6 +5,7 @@ import io.grpc.netty.NettyServerBuilder;
 import io.grpc.stub.StreamObserver;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -162,11 +163,60 @@ public class BlockDatabaseServer {
         try{t1.join();t2.join();}catch (Exception e){}
 	}
 	
+    public static void test0(){
+        try{
+            JSONObject obj1 = Util.readJsonFile("/Users/lwz/Downloads/OS3-master/blockdb_go/example/example_1.json");
+            JSONObject obj2 = Util.readJsonFile("/Users/lwz/Downloads/OS3-master/blockdb_java/tmp/1.json");
+            System.out.println(jsonsEqual(obj1,obj2));
+        }
+        catch(Exception e){
+        }
+    }
+    
+    public static boolean jsonsEqual(Object obj1, Object obj2) throws JSONException{
+        if (!obj1.getClass().equals(obj2.getClass()))return false;
+        if (obj1 instanceof JSONObject){
+            JSONObject jsonObj1 = (JSONObject) obj1;
+            JSONObject jsonObj2 = (JSONObject) obj2;
+            String[] names = JSONObject.getNames(jsonObj1);
+            String[] names2 = JSONObject.getNames(jsonObj1);
+            if (names.length != names2.length)return false;
+            for (String fieldName:names){
+                Object obj1FieldValue = jsonObj1.get(fieldName);
+                Object obj2FieldValue = jsonObj2.get(fieldName);
+                if (!jsonsEqual(obj1FieldValue, obj2FieldValue))return false;
+            }
+        }
+        else if (obj1 instanceof JSONArray){
+            JSONArray obj1Array = (JSONArray) obj1;
+            JSONArray obj2Array = (JSONArray) obj2;
+            if (obj1Array.length() != obj2Array.length())return false;
+            int flag[]=new int[obj1Array.length()];
+            for (int i = 0; i < obj1Array.length(); i++)flag[i]=0;
+            for (int i = 0; i < obj1Array.length(); i++){
+                boolean matchFound = false;
+                for (int j = 0; j < obj2Array.length(); j++){
+                    if (flag[j]==0 && jsonsEqual(obj1Array.get(i), obj2Array.get(j))){
+                        matchFound = true;
+                        flag[j]=1;
+                        break;
+                    }
+                }
+                if (!matchFound)return false;
+            }
+        }
+        else {
+            if (!obj1.equals(obj2))return false;
+        }
+        return true;
+    }
+    
     public static void main(String[] args) throws IOException, JSONException, InterruptedException {
         //System.out.println("test1");test1();return;
 		//System.out.println("test2");test2();return;
 		//System.out.println("test3");test3();return;
-		
+		//System.out.println("test0");test0();return;
+        
 		JSONObject config = Util.readJsonFile("config.json");
         config = (JSONObject)config.get("1");
         String address = config.getString("ip");

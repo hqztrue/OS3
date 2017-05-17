@@ -43,42 +43,6 @@
     "Value": 10
   }, {
     "Type": "DEPOSIT",
-    "UserID": "TEST---0",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---1",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---2",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---3",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---4",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---5",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---6",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---7",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
-    "UserID": "TEST---8",
-    "Value": 5
-  }, {
-    "Type": "DEPOSIT",
     "UserID": "TEST---9",
     "Value": 5
   }, {
@@ -221,6 +185,42 @@
     "Type": "WITHDRAW",
     "UserID": "TEST---9",
     "Value": 5
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---5",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---6",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---7",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---8",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---9",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---5",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---6",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---7",
+    "Value": 10
+  }, {
+    "Type": "PUT",
+    "UserID": "TEST---8",
+    "Value": 10
   }],
   "Nonce": "00000000"
 }
