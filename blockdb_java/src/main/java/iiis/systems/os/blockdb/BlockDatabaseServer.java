@@ -39,12 +39,91 @@ public class BlockDatabaseServer {
         }
     }
 
-	public static void test(){
-		
+	public static void test1(){
+		DatabaseEngine.setup("./test/");
+		DatabaseEngine engine = DatabaseEngine.getInstance();
+		for (int i=0; i<10; ++i){
+			System.out.println(""+i+"deposit"+engine.deposit(Integer.toString(i), 1));
+		}
+		for (int i=0; i<5; ++i){
+			System.out.println(""+i+"deposit"+engine.deposit(Integer.toString(i), 1));
+		}
+		for (int i=0; i<10; ++i){
+			System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+		}
+		for (int i=0; i<4; ++i){
+			System.out.println(""+i+"put"+engine.put(Integer.toString(i), i));
+		}
+		for (int i=0; i<10; ++i){
+			System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+		}
+		for (int i=0; i<10; ++i){
+			System.out.println(""+i+"withdraw"+engine.withdraw(Integer.toString(i), 1));
+		}
+		for (int i=11; i>0; --i)
+			if (i%2==1){
+				System.out.println(""+i+"transfer"+engine.transfer(Integer.toString(i), Integer.toString(i-1), 2));
+			}
+		for (int i=0; i<10; ++i){
+			System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+		}
 	}
 	
+	public static void test2(){
+		DatabaseEngine.setup("./test/");
+		Thread t1 = new Thread(new Runnable(){
+			public void run(){
+				for (int i=0; i<10; ++i){
+					System.out.println(""+i+"deposit"+engine.deposit(Integer.toString(i), 1));
+				}
+				for (int i=0; i<10; ++i){
+					System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+				}
+			}
+		});
+		Thread t2 = new Thread(new Runnable(){
+			public void run(){
+				for (int i=0; i<5; ++i){
+					System.out.println(""+i+"deposit"+engine.deposit(Integer.toString(i), 1));
+				}
+			}
+		});
+		Thread t3 = new Thread(new Runnable(){
+			public void run(){
+				for (int i=0; i<4; ++i){
+					System.out.println(""+i+"put"+engine.put(Integer.toString(i), i));
+				}
+				for (int i=0; i<10; ++i){
+					System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+				}
+			}
+		});
+		Thread t4 = new Thread(new Runnable(){
+			public void run(){
+				for (int i=0; i<10; ++i){
+					System.out.println(""+i+"withdraw"+engine.withdraw(Integer.toString(i), 1));
+				}
+				for (int i=11; i>0; --i)
+					if (i%2==1){
+						System.out.println(""+i+"transfer"+engine.transfer(Integer.toString(i), Integer.toString(i-1), 2));
+					}
+				for (int i=0; i<10; ++i){
+					System.out.println(""+i+"get"+engine.get(Integer.toString(i)));
+				}
+			}
+		});
+		t1.start();
+		t2.start();
+		t3.start();
+		t4.start();
+	}
+	
+	
     public static void main(String[] args) throws IOException, JSONException, InterruptedException {
-        JSONObject config = Util.readJsonFile("config.json");
+        test1();return;
+		//test2();return;
+		
+		JSONObject config = Util.readJsonFile("config.json");
         config = (JSONObject)config.get("1");
         String address = config.getString("ip");
         int port = Integer.parseInt(config.getString("port"));

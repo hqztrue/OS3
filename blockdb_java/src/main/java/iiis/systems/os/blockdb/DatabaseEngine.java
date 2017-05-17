@@ -136,6 +136,7 @@ public class DatabaseEngine {
     DatabaseEngine(String dataDir) {
         this.dataDir = dataDir;
 		this.savedLogInfoPath = this.dataDir + "info.txt";
+		//restoreLog();
     }
 
     private int getOrZero(String userId) {
